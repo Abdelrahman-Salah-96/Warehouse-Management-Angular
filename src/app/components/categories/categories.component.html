@@ -1,0 +1,130 @@
+<div class="main-panel">
+    <div class="main-content">
+        <div class="content-wrapper">
+            <div class="container-fluid">
+
+                <div id="horizontal-form-layouts">
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="card-title-wrap bar-success">
+                                        <h4 class="card-title" id="horz-layout-basic">Items Form</h4>
+                                    </div>
+                                    <p class="mb-0">This is the basic horizontal form with labels on left and cost estimation form is the default position.</p>
+                                </div>
+                                <div class="card-body">
+                                    <div class="px-3">
+                                        <form class="form form-horizontal" [formGroup]="categoryForm" (ngSubmit)="saveCategory()" autocomplete="off">
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="company">Company Name: </label>
+                                                <div class="col-md-9">
+                                                    <select id="company" name="budget" class="form-control" formControlName="company">
+
+                                                  <option [value]="null" selected="" disabled="">choose from Companies</option>
+                                                  <option [value]="company.id" *ngFor="let company of companies">{{company.name}}</option>
+
+                                              </select>
+                                                    <span class="ml-2 help-block text-danger" *ngIf="(categoryForm.get('company').touched && categoryForm.get('company').hasError('required')) || (categoryForm.get('company').hasError('required') && isSubmitted)">company name is required</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="type">Species Name: </label>
+                                                <div class="col-md-9">
+
+                                                    <select id="type" name="budget" class="form-control" formControlName="type">
+                                                  <option [value]="null"  selected="" disabled="">choose from Species</option>
+                                                  <option [value]="cType.typeId" *ngFor="let cType of companyTypes | filterByCompany : categoryForm.value.company">{{cType['type'].name}}</option>
+                                              </select>
+                                                    <span class="ml-2 help-block text-danger" *ngIf="(categoryForm.get('type').touched && categoryForm.get('type').hasError('required')) || (categoryForm.get('type').untouched && isSubmitted)">Specie name is required</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="unit">Unit Name : </label>
+                                                <div class="col-md-9">
+                                                    <select id="unit" name="budget" class="form-control" formControlName="unit">
+                                                  <option [value]="null" selected="" disabled="">choose from Units</option>
+                                                  <option [value]="unit.id" *ngFor="let unit of units">{{unit.name}}</option>
+                                                </select>
+                                                    <span class="ml-2 help-block text-danger" *ngIf="(categoryForm.get('unit').touched && categoryForm.get('unit').hasError('required')) || (categoryForm.get('unit').hasError('required') && isSubmitted)">unit name is required</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="itemName">Item Name
+                                                : </label>
+                                                <div class="col-md-9">
+                                                    <input type="text" id="itemName" class="form-control" name="Type" formControlName="name" (input)="nameActive= true">
+                                                    <span class="ml-2 help-block text-danger" *ngIf="(categoryForm.get('name').touched && categoryForm.get('name').hasError('required')) || (categoryForm.get('name').hasError('required') && isSubmitted)">Item name is required</span><br>
+                                                    <span class="ml-2 help-block text-danger" *ngIf="(categoryForm.get('name').touched && categoryForm.get('name').hasError('exists')) || (categoryForm.get('name').hasError('exists') && nameActive)">Item name already exists</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="buyingPrice">buying Price : </label>
+                                                <div class="col-md-9">
+                                                    <input type="number" id="buyingPrice" class="form-control" name="Type" formControlName="buyingPrice" (input)="checkPrice()" (input)="buyingPriceActive = true">
+                                                    <span class="ml-2 help-block text-danger" *ngIf="(categoryForm.get('buyingPrice').touched && categoryForm.get('buyingPrice').hasError('required')) || (categoryForm.get('buyingPrice').hasError('required') && isSubmitted && categoryForm.get('buyingPrice').untouched)">Buying price is required</span><br>
+                                                    <span class="ml-2 help-block text-danger" *ngIf="(categoryForm.get('buyingPrice').touched && categoryForm.get('buyingPrice').hasError('min')) || (categoryForm.get('buyingPrice').hasError('required') && buyingPriceActive)">Buying price cannot be less than Zero</span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="sellingPrice">selling price
+                                                  : </label>
+                                                <div class="col-md-9">
+                                                    <input type="number" id="sellingPrice" class="form-control" name="Type" formControlName="sellingPrice" (input)="checkPrice()" (input)="sellingPriceActive=true">
+                                                    <span class="ml-2 help-block text-danger" *ngIf="(categoryForm.get('sellingPrice').touched && categoryForm.get('sellingPrice').hasError('required')) || (categoryForm.get('sellingPrice').hasError('required') && isSubmitted && categoryForm.get('sellingPrice').untouched)">Selling price is required</span>
+                                                    <span class="ml-2 help-block text-danger" *ngIf="(categoryForm.get('sellingPrice').touched && categoryForm.get('sellingPrice').hasError('priceError')) || (categoryForm.get('sellingPrice').hasError('priceError') && sellingPriceActive||checkprice)">Selling price cannot be less than Buying price</span><br>
+                                                    <span class="ml-2 help-block text-danger" *ngIf="(categoryForm.get('sellingPrice').touched && categoryForm.get('sellingPrice').hasError('min')) || (categoryForm.get('sellingPrice').hasError('min') && sellingPriceActive)">selling price cannot be less than Zero</span>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="quantity">Quantity
+                                                  : </label>
+                                                <div class="col-md-9">
+                                                    <input type="number" id="quantity" class="form-control" name="Type" formControlName="quantity" (input)="quantityActive=true">
+                                                    <span class="ml-2 help-block text-danger" *ngIf="(categoryForm.get('quantity').touched && categoryForm.get('quantity').hasError('required')) || (categoryForm.get('quantity').hasError('required') && isSubmitted)">Quantity is required</span><br>
+                                                    <span class="ml-2 help-block text-danger" *ngIf="(categoryForm.get('quantity').touched && categoryForm.get('quantity').hasError('min')) || (categoryForm.get('quantity').hasError('min') && quantityActive)">Quanity must be greater than zero</span>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-md-3 label-control" for="projectinput9">Notes: </label>
+                                                <div class="col-md-9">
+                                                    <textarea id="projectinput9" rows="5" class="form-control" name="comment" formControlName="notes"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-actions">
+                                                <button type="reset" class="btn btn-danger mr-1">
+                                                  <i class="icon-trash"></i> Cancel
+                                              </button>
+                                                <button type="submit" class="btn btn-success" (click)="{popup}">
+                                                  <i class="icon-note"></i> Save
+                                              </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="overlay" *ngIf="popup">
+            <div class="popup">
+                <h2>saved</h2>
+                <a class="close" (click)="popup = false">&times;</a>
+                <div class="content">
+                    <img src="assets/img/saved.png" style="width: 200px;">
+                </div>
+            </div>
+        </div>
+        <footer class="footer footer-static footer-light">
+            <p class="clearfix text-muted text-center px-2"><span>Copyright  &copy; 2022
+        <a href="#" id="pixinventLink" target="_blank" class="text-bold-800 primary darken-2">Pioneer-solutions</a>, All rights reserved. </span></p>
+        </footer>
+    </div>

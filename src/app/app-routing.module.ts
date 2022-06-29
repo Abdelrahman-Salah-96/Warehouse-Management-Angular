@@ -1,0 +1,33 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { CategoriesComponent } from './components/categories/categories.component';
+import { ClientsComponent } from './components/clients/clients.component';
+import { CompanyDataComponent } from './components/company-data/company-data.component';
+import { HomeComponent } from './components/home/home.component';
+import { ItemProcessComponent } from './components/item-process/item-process.component';
+import { LoginComponent } from './components/login/login.component';
+import { SalesReportComponent } from './components/sales-report/sales-report.component';
+import { SalesComponent } from './components/sales/sales.component';
+import { SpeciesComponent } from './components/species/species.component';
+import { TypeComponent } from './components/Type/type.component';
+import { UnitsComponent } from './components/units/units.component';
+
+const routes: Routes = [
+  {path:"", component: HomeComponent},
+  {path:"categories", component: CategoriesComponent},
+  {path:"clients", component: ClientsComponent},
+  {path:"company-data", component: CompanyDataComponent},
+  {path:"type", component: TypeComponent},
+  {path:"login", component: LoginComponent},
+  {path:"sales-report", component: SalesReportComponent},
+  {path:"sales", component: SalesComponent},
+  {path:"species", component: SpeciesComponent},
+  {path:"units", component: UnitsComponent},
+  {path:"process", component: ItemProcessComponent},
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
